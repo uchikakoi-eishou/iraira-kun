@@ -21,10 +21,20 @@
 		var_dump($mail);
 		var_dump($password);
 
-		$userData = "select * from user_data where mail = '".$mail."'";
+		$userData = "selecta * from user_data where mail = '".$mail."'";
+		var_dump($userData);
+
 		$userData = mysqli_query($mysqli, $userData);
+		var_dump($userData);
 		$userCount = mysqli_num_rows($userData);
 		var_dump($userCount);
+
+		if($userCount > 0){
+			$userResult = "false";
+		}else{
+			$userResult = "true";
+		};
+		var_dump($userResult);
 
 		//$mailが空じゃなければバリデーションチェック呼び出します。
 		//空の場合は$mailresultにfalseを返します。
@@ -69,16 +79,10 @@
 
 ?>
 		
-<h1>登録フォーム</h1>
+<h2>登録フォーム</h2>
 <form method="post" action="">		
-	<!-- <input type="text" name="mail" placeholder="メールアドレス" value="<?php echo $mail; ?>" /><br/> -->
 	<input type="text" name="mail" placeholder="メールアドレス" value="" /><br/>
-	<!--もし$mailresultがfalseの場合はエラー表示。-->
-	<!-- <?php if($mailresult == "false"){echo "メールアドレスにエラーがあります。<br/>";}; ?>
-	<?php if($result == "false"){echo "既に登録されているメールアドレスです。<br/>";}; ?> -->
 	<input type="password" name="password" placeholder="パスワード" value="" /><br/>
-	<!--もし$passresultがfalseの場合はエラー表示。-->
-	<!-- <?php if($passresult == "false"){echo "パスワードにエラーがあります。<br/>";}; ?> -->
 	<input type="submit" name="submitBtn" value="登録" />
 </form>
 	
