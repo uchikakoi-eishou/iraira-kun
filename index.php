@@ -1,9 +1,6 @@
 <?php
-    $mysqli = new mysqli("localhost", "iraira-kun", "aaamukatsuku", "iraira-kun");
-    if($mysqli->connect_errno){
-        printf("接続失敗: %s\n", $mysqli->connect_error);
-        exit();
-    }
+    require_once "header.php";
+    require_once "functions/db.php";
 
     $a = 1;
     if(isset($_POST['a'])){
@@ -12,24 +9,14 @@
     if(isset($_POST['plus'])){
         $a++;
     }
-    if(isset($_POST['count_data'])){
-        $count_data = htmlspecialchars($_POST['count_data'], ENT_QUOTES);
-        if(!empty($count_data)){
-            $result = mysqli_query($mysqli, "insert into iraira_data(count_data) values('$count_data')");
-            header("localhost");
+    if(isset($_POST['countData'])){
+        $countData = $_POST['countData'];
+        if(!empty($countData)){
+            $result = mysqli_query($mysqli, "insert into iraira_data(count_data) values('$countData')");
+            header('Location: http://localhost');
         }
     }
- ?>
-
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>iraira-kun</title>
-</head>
-<body>
+?>
 
 <form action="" method="POST">
      <input type="hidden" name="a" value="<?=$a?>">
@@ -38,19 +25,19 @@
 <p><?=$a?></p>
 
 <form action="" method="POST">
-     <input type="hidden" name="count_data" value="<?=$a?>">
-     <input type="submit" name="" value="記録する">
+     <input type="hidden" name="countData" value="<?=$a?>">
+     <input type="submit" name="" value="ログインして記録する">
 </form>
 
 <?php
-    $iraira_data = "select * from iraira_data order by id DESC";
-    $iraira_data = mysqli_query($mysqli, $iraira_data);
-    while($iraira_data_array = mysqli_fetch_assoc($iraira_data)){
-        echo $id = $iraira_data_array["id"];
+    $irairaData = "select * from iraira_data order by id DESC";
+    $irairaData = mysqli_query($mysqli, $irairaData);
+    while($irairaDataArray = mysqli_fetch_assoc($irairaData)){
+        echo $id = $irairaDataArray["id"];
         echo ",";
-        echo $count_data = $iraira_data_array["count_data"];
+        echo $countData = $irairaDataArray["count_data"];
         echo ",";
-        echo $reg_date = $iraira_data_array["reg_date"];
+        echo $regDate = $irairaDataArray["reg_date"];
         echo "<br>";
     }
 ?>
