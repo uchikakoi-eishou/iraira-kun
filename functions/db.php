@@ -4,4 +4,3 @@
         printf("接続失敗: %s\n", $mysqli->connect_error);
         exit();
     }
-?>
