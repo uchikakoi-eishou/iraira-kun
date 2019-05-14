@@ -1,16 +1,8 @@
 	
 <?php
-	require_once "header.php";
-	require_once "functions/db.php";
-	
-	//メールアドレスチェック
-	function mailcheck($mail){
-		if(preg_match('/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/iD', $mail)){
-			 return 'true';
-		}else{
-			 return 'false';
-		}
-	};
+	require_once "header.php";				//ヘッダー
+	require_once "functions/db.php";		//DB接続
+	require_once "functions/validation.php"	//バリデーション
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		
@@ -18,23 +10,23 @@
 		$mail = htmlspecialchars($_POST['mail'], ENT_QUOTES);
 		$password = htmlspecialchars($_POST['password'], ENT_QUOTES);
 			
-		var_dump($mail);
-		var_dump($password);
+		// var_dump($mail);
+		// var_dump($password);
 
 		$userData = "selecta * from user_data where mail = '".$mail."'";
-		var_dump($userData);
+		// var_dump($userData);
 
 		$userData = mysqli_query($mysqli, $userData);
-		var_dump($userData);
+		// var_dump($userData);
 		$userCount = mysqli_num_rows($userData);
-		var_dump($userCount);
+		// var_dump($userCount);
 
 		if($userCount > 0){
 			$userResult = "false";
 		}else{
 			$userResult = "true";
 		};
-		var_dump($userResult);
+		// var_dump($userResult);
 
 		//$mailが空じゃなければバリデーションチェック呼び出します。
 		//空の場合は$mailresultにfalseを返します。
@@ -43,7 +35,7 @@
 		}else{
 			$mailresult = "false";
 		};
-		var_dump($mailresult);
+		// var_dump($mailresult);
 		
 		//パスワード暗号化と空欄チェックを行います。
 		if(!empty($password)){
@@ -58,7 +50,7 @@
 		if(empty($hashpass)){
 			$passresult = "false";
 		};
-		var_dump($passresult);
+		// var_dump($passresult);
 
 		//すでにユーザーが存在していた場合はアップデート。
 		//メールアドレスとパスワードが入力されていた場合に実行。
