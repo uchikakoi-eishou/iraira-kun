@@ -2,7 +2,7 @@
 <?php
 	require_once "header.php";				//ヘッダー
 	require_once "functions/db.php";		//DB接続
-	require_once "functions/validation.php"	//バリデーション
+	require_once "functions/validation.php";	//バリデーション
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		

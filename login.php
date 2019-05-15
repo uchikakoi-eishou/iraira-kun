@@ -1,18 +1,16 @@
-	
 <?php
 	session_start();
 	require_once "header.php";				//ヘッダー
 	require_once "functions/db.php";		//DB接続
-	require_once "functions/validation.php"	//バリデーション
+	require_once "functions/validation.php";	//バリデーション
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		
 		
 		//メールアドレスとパスワードを受け取ります。
 		$mail = htmlspecialchars($_POST['mail'], ENT_QUOTES);
 		$password = htmlspecialchars($_POST['password'], ENT_QUOTES);
 
-	}
+	};
 
 
 			
@@ -79,7 +77,9 @@
 	<!-- <?php if($passresult == "false"){echo "パスワードにエラーがあります。<br/>";}; ?> -->
 	<input type="submit" name="loginBtn" value="ログイン" />
 </form>	
-	
+
+<a href="register.php">登録する</a>
+
 <!-- <?php
 		
 	//投稿データ一覧

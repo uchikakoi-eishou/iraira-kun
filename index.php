@@ -1,7 +1,7 @@
 <?php
     session_start();
     require_once "header.php";
-    require_once "functions/db.php";
+    // require_once "functions/db.php";
 
     // 初期化
     $a = 1;
