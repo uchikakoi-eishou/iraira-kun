@@ -10,59 +10,45 @@
 		$mail = htmlspecialchars($_POST['mail'], ENT_QUOTES);
 		$password = htmlspecialchars($_POST['password'], ENT_QUOTES);
 
+		//メールアドレスチェック
+		if(!empty($mail)){
+			$mailresult = mailcheck($mail);
+		}else{
+			$mailresult = "false";
+		};
+
+		if($mailresult == "true"){
+			
+			//データベースからメールアドレスを起点にデータを呼び出します。
+			$userdataEdit = "select * from user_data where mail = '".$mail."' order by id DESC"; 
+			$userdataEdit = mysqli_query($mysqli,$userdataEdit);
+			
+			//ユーザーのデータを呼び出していきます。
+			while ($userdataEditArray = mysqli_fetch_assoc($userdataEdit)) {
+				$userid = $userdataEditArray["id"];
+				$mail = $userdataEditArray["mail"];
+				$hashpass = $userdataEditArray["password"];
+			};
+		};
+
+		//パスワードチェック
+		if(password_verify($_POST['password'], $hashpass)){
+			$passresult = "true";
+		}else{
+			$passresult = "false";
+		};
+
+		//メールアドレスとパスワード、ともに問題なければ、、
+		if($mailresult!=="false"&&$passresult!=="false"){
+			//セッションにtrueを入れてログイン済みの印を残します。
+			//セッションにtrueが保存されていればログイン済み、という意味です。
+			$_SESSION["login_pass"] = "true";
+			//よく利用するuseridも別のセッションに保存しておきましょう。
+			$_SESSION["userid"] = $userid;
+			//ログインが成功したら、ログイン完了メッセージと名前を表示。
+			echo $mail."さんログイン完了<br>";
+		};
 	};
-
-
-			
-						
-	// 	//メールアドレスが空じゃなかったら、、
-	// 	if(!empty($mail)){
-	// 		//バリデーションチェックを実行。
-	// 		$mailresult = mailcheck($mail);
-	// 	}else{
-	// 		//空だったら$mailresultにfalseを入力。
-	// 		$mailresult = "false";
-	// 	};
-			
-	// 	//メールアドレスに特に問題なければ、、、
-	// 	if($mailresult == "true"){
-			
-	// 		//データベースからメールアドレスを起点にデータを呼び出します。
-	// 		$userdataEdit = "select * from user_data where mail = '".$mail."' order by id DESC"; 
-	// 		$userdataEdit = mysqli_query($mysqli,$userdataEdit);
-			
-	// 		//ユーザーのデータを呼び出していきます。
-	// 		while ($userdataEditArray = mysqli_fetch_assoc($userdataEdit)) {
-	// 			$userid = $userdataEditArray["id"];
-	// 			// $name = $userdataEditArray["name"];
-	// 			// $age = $userdataEditArray["age"];
-	// 			// $skill = $userdataEditArray["skill"];
-	// 			$mail = $userdataEditArray["mail"];
-	// 			$hashpass = $userdataEditArray["password"];
-	// 		};
-	// 	};
-			
-	// 	//入力されたパスワードと暗号化されたパスワードを比較。
-	// 	if(password_verify($_POST['password'], $hashpass)){
-	// 		//もし一致したら、trueを返します。
-	// 		$passresult = "true";
-	// 	}else{
-	// 		//一致しなければ、falseを返します。
-	// 		$passresult = "false";
-	// 	};
-			
-	// 	//メールアドレスとパスワード、ともに問題なければ、、
-	// 	if($mailresult!=="false"&&$passresult!=="false"){
-	// 		//セッションにtrueを入れてログイン済みの印を残します。
-	// 		//セッションにtrueが保存されていればログイン済み、という意味です。
-	// 		$_SESSION["login_pass"] = "true";
-	// 		//よく利用するuseridも別のセッションに保存しておきましょう。
-	// 		$_SESSION["userid"] = $userid;
-	// 		//ログインが成功したら、ログイン完了メッセージと名前を表示。
-	// 		echo $mail."さんログイン完了<br>";
-	// 	};
-				    
-	// };
 
 ?>
 		
